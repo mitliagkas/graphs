@@ -16,7 +16,7 @@ require(["d3"], function(d3) {
     var force = d3.layout.force()
         .charge(-60)
         .linkDistance(30)
-        .linkStrength(0.7)
+        .linkStrength(0.9)
         .gravity(0.35)
         .theta(0.95)
         .size([width, height]);
@@ -31,7 +31,7 @@ require(["d3"], function(d3) {
     }
         
     // We load the JSON file.
-    d3.json("graph.json", function(error, graph) {
+    d3.json("graph.json?nocache=" + (new Date()).getTime(), function(error, graph) {
         // In this block, the file has been loaded
         // and the 'graph' object contains our graph.
         
