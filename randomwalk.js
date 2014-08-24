@@ -42,6 +42,7 @@ require(["d3"], function(d3) {
             .start();
 
 				var nodes = force.nodes()
+				nodes.forEach(function(o) { o.count=0; })
 
 				var adjacency = graph.adjacency;
 
@@ -60,7 +61,8 @@ require(["d3"], function(d3) {
             .data(graph.nodes)
             .enter().append("circle")
             .attr("class", "node")
-            .attr("r", function(d) { return Math.log(d.value+1)+3; })  // radius  .attr("r", 5) 
+						// radius
+						.attr("r", 3) // .attr("r", function(d) { return Math.log(d.value+1)+3; })
             .style("fill", function(d) {
                 // The node color depends on the club.
                 return color(d.group); 
@@ -107,7 +109,7 @@ require(["d3"], function(d3) {
 						.duration(1000)
 				    .style("opacity", 1);
 
-		var delay = 400;
+		var delay = 100;
 
 		walk(0);
 
@@ -121,6 +123,10 @@ require(["d3"], function(d3) {
 			//vertex = vertex + 1;
 
 			node[0][vertex].style.fill = color(6);
+
+			nodes[vertex].count++
+
+			node[0][vertex].setAttribute("r", 3+Math.sqrt(nodes[vertex].count));
 
 			window.setTimeout(function() {
 						walk(vertex);
