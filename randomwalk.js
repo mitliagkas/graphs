@@ -52,7 +52,8 @@ require(["d3"], function(d3) {
             .data(graph.links)
             .enter().append("line")
             .attr("class", "link")
-            .style("stroke-width", function(d) { return 1+( (d.source.group != d.target.group) ? 1 : 0) });
+            .style("stroke-width", function(d) { return 1; });
+            //.style("stroke-width", function(d) { return 1+( (d.source.group != d.target.group) ? 1 : 0) });
 
 
         // We create a <circle> SVG element for each node
@@ -109,7 +110,11 @@ require(["d3"], function(d3) {
 						.duration(1000)
 				    .style("opacity", 1);
 
-		var delay = 100;
+		var delay = 5;
+		//delayslider = d3.slider().axis(true).min(1).max(1000).value(200);
+		//delayslider = d3.slider().value(200);
+		
+		var count = 0;
 
 		walk(0);
 
@@ -118,16 +123,21 @@ require(["d3"], function(d3) {
 
 		function walk(vertex) {
 			node[0][vertex].style.fill = color(nodes[vertex].group);
-
-			vertex = adjacency[vertex][~~(Math.random() * adjacency[vertex].length)]['id'];
-			//vertex = vertex + 1;
+			
+			if (adjacency[vertex].length>0) {
+				vertex = adjacency[vertex][~~(Math.random() * adjacency[vertex].length)]['id'];
+			}else{
+				vertex = ~~(Math.random() * nodes.length);
+			}
 
 			node[0][vertex].style.fill = color(6);
 
-			nodes[vertex].count++
+			nodes[vertex].count++;
+			count++;
 
-			node[0][vertex].setAttribute("r", 3+Math.sqrt(nodes[vertex].count));
+			node[0][vertex].setAttribute("r", 3+30*Math.sqrt(nodes[vertex].count/count));
 
+		  //var delay = delayslider.value()
 			window.setTimeout(function() {
 						walk(vertex);
 			}, delay);
