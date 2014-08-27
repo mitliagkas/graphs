@@ -6,8 +6,8 @@ require(["d3"], function(d3) {
     
     // First, we specify the size of the canvas containing
     // the visualization (size of the <div> element).
-    var width = 500,
-        height = 500;
+    var width = 400,
+        height = 400;
 
     // We create a color scale.
     var color = d3.scale.category10();
@@ -67,8 +67,8 @@ require(["d3"], function(d3) {
             .style("fill", function(d) {
                 // The node color depends on the club.
                 return color(d.group); 
-            })
-            .call(force.drag);
+            });
+            //.call(force.drag);
 						
         // The name of each node is the node number.
         node.append("title")
@@ -110,36 +110,56 @@ require(["d3"], function(d3) {
 						.duration(1000)
 				    .style("opacity", 1);
 
-		var delay = 5;
+		var delay = 100;
 		//delayslider = d3.slider().axis(true).min(1).max(1000).value(200);
 		//delayslider = d3.slider().value(200);
 		
 		var count = 0;
 
-		walk(0);
+		var frogs = 10;
+
+		// Initialize frogs position
+		var frogvertex = []
+		for (var i = 0; i < frogs; i++) {
+			frogvertex[i] = ~~(Math.random() * nodes.length);
+		}
+		
+		window.setTimeout(function() {
+					walk();
+		}, 3000 + delay);
+
+		window.setTimeout(function() {
+					//force.stop()
+					force.stop();
+		}, 3000);
 
 		// From:
 		// https://gist.github.com/wrr/4750218
 
-		function walk(vertex) {
-			node[0][vertex].style.fill = color(nodes[vertex].group);
-			
-			if (adjacency[vertex].length>0) {
-				vertex = adjacency[vertex][~~(Math.random() * adjacency[vertex].length)]['id'];
-			}else{
-				vertex = ~~(Math.random() * nodes.length);
+		function walk() {
+			for (var i = 0; i < frogs; i++){
+				//node[0][vertex].style.fill = color(7);
+				node[0][frogvertex[i]].style.fill = color(nodes[frogvertex[i]].group);
 			}
+			
+			for (var i = 0; i < frogs; i++){
+				vertex = frogvertex[i];
+				if (adjacency[vertex].length>0) {
+					frogvertex[i] = adjacency[vertex][~~(Math.random() * adjacency[vertex].length)]['id'];
+				}else{
+					frogvertex[i] = ~~(Math.random() * nodes.length);
+				}
 
-			node[0][vertex].style.fill = color(6);
+				nodes[frogvertex[i]].count++;
+				count++;
 
-			nodes[vertex].count++;
-			count++;
-
-			node[0][vertex].setAttribute("r", 3+30*Math.sqrt(nodes[vertex].count/count));
+				node[0][frogvertex[i]].style.fill = color(6);
+				node[0][frogvertex[i]].setAttribute("r", 3+20*Math.sqrt(nodes[frogvertex[i]].count/count));
+			}
 
 		  //var delay = delayslider.value()
 			window.setTimeout(function() {
-						walk(vertex);
+						walk();
 			}, delay);
 		}
 

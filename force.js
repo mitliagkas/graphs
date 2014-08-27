@@ -6,18 +6,18 @@ require(["d3"], function(d3) {
     
     // First, we specify the size of the canvas containing
     // the visualization (size of the <div> element).
-    var width = 700,
-        height = 700;
+    var width = 200,
+        height = 200;
 
     // We create a color scale.
     var color = d3.scale.category20();
 
     // We create a force-directed dynamic graph layout.
     var force = d3.layout.force()
-        .charge(-60)
-        .linkDistance(30)
+        .charge(-90)
+        .linkDistance(40)
         .linkStrength(0.9)
-        .gravity(0.35)
+        .gravity(0.15)
         .theta(0.95)
         .size([width, height]);
 
