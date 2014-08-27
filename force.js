@@ -41,14 +41,30 @@ require(["d3"], function(d3) {
             .links(graph.links)
             .start();
 
+				// From:
+				// http://logogin.blogspot.com/2013/02/d3js-arrowhead-markers.html
+				svg.append("defs").append("marker")
+									.attr("id", "arrowhead")
+									.attr("refX", 6 + 3) /*must be smarter way to calculate shift*/
+									.attr("refY", 2)
+									.attr("markerWidth", 6)
+									.attr("markerHeight", 4)
+									.attr("orient", "auto")
+									.append("path")
+											.attr("d", "M 0,0 V 4 L6,2 Z"); //this is actual shape for arrowhead
+			
         // We create a <line> SVG element for each link
         // in the graph.
         var link = svg.selectAll(".link")
             .data(graph.links)
             .enter().append("line")
             .attr("class", "link");
-            //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
+				if (graph.directed){
+				  	link.attr("marker-end", "url(#arrowhead)");
+					  //.attr("d", diagonal);
+            //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+				}
 
         // We create a <circle> SVG element for each node
         // in the graph, and we specify a few attributes.
