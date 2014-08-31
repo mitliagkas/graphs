@@ -14,7 +14,7 @@ require(["d3"], function(d3) {
 
     // We create a force-directed dynamic graph layout.
     var force = d3.layout.force()
-        .charge(-90)
+        .charge(-50)
         .linkDistance(40)
         .linkStrength(0.9)
         .gravity(0.15)
@@ -59,12 +59,8 @@ require(["d3"], function(d3) {
             .data(graph.links)
             .enter().append("line")
             .attr("class", "link");
-
-				if (graph.directed){
-				  	link.attr("marker-end", "url(#arrowhead)");
-					  //.attr("d", diagonal);
             //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
-				}
+
 
         // We create a <circle> SVG element for each node
         // in the graph, and we specify a few attributes.
@@ -78,6 +74,11 @@ require(["d3"], function(d3) {
                 return color(d.group); 
             })
             .call(force.drag);
+
+				if (graph.directed){
+				  	link.attr("marker-end", "url(#arrowhead)");
+					  //.attr("d", diagonal);
+				}
 
         // The name of each node is the node number.
         node.append("title")
