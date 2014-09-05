@@ -6,8 +6,8 @@ require(["d3"], function(d3) {
     
     // First, we specify the size of the canvas containing
     // the visualization (size of the <div> element).
-    var width = 200,
-        height = 200;
+    var width = 300,
+        height = 300;
 
     // We create a color scale.
     var color = d3.scale.category20();
@@ -58,7 +58,13 @@ require(["d3"], function(d3) {
         var link = svg.selectAll(".link")
             .data(graph.links)
             .enter().append("line")
-            .attr("class", "link");
+            .attr("class", "link")
+						.style("stroke", function(d) {
+								if (d.expensive)
+									return "#f55"
+								else
+									return "#999"
+						});
             //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
 

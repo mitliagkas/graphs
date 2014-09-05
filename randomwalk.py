@@ -47,6 +47,7 @@ def plotrwresult(G):
     line.legend(title='Results')
     line.width = 400
     line.height = 300
+
     line.marks[0].marks[0].properties.enter.opacity = vincent.ValueRef(value=1)
     
     line.marks[0].marks[0].properties.update = vincent.PropertySet()
@@ -229,6 +230,10 @@ def plotrwtraversal(G, expensiveedges=[], time=None, countfrogs = False):
     line.legend(title='Edge')
     line.width = 400
     line.height = 300
+
+    if not countfrogs:
+        line.scales[1].domain = [0, G.size()]
+
     line.marks[0].marks[0].properties.enter.opacity = vincent.ValueRef(value=0.8)
    
     if len(expensiveedges)>0:
