@@ -39,7 +39,7 @@ def plotrwresult(G):
         norm_degrees = np.array(degrees)/float(G.size())
     else:
         degrees = [ G.degree(node) for node in G.nodes_iter() ]
-        norm_degrees = np.array(degrees)/float(2*G.size())
+        aorm_degrees = np.array(degrees)/float(2*G.size())
 
     multi_iter1 = {'index':range(G.order()), 'Visits':norm_visits, 'Deaths':norm_deaths, 'Degree':norm_degrees}
     line = vincent.Scatter(multi_iter1, iter_idx='index')
@@ -87,7 +87,9 @@ def randomwalk(G, frogs, P_die, T=10, expensiveedges = []):
     G.graph['total_visits'] = 0
     G.graph['death_times_sum'] = 0
     
-    frog_locations = np.random.randint(0, high = G.number_of_nodes(), size = frogs).tolist()
+    #frog_locations = np.random.randint(0, high = G.number_of_nodes(), size = frogs).tolist()
+    na = np.array(G.nodes())
+    frog_locations = na[np.random.randint(0, high=G.order()-1, size=(frogs))]
     for i in range(frogs):
         G.node[frog_locations[i]]['frogs'] += 1
     del frog_locations
