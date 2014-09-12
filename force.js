@@ -6,8 +6,8 @@ require(["d3"], function(d3) {
     
     // First, we specify the size of the canvas containing
     // the visualization (size of the <div> element).
-    var width = 300,
-        height = 300;
+    var width = 600,
+        height = 600;
 
     // We create a color scale.
     var color = d3.scale.category20();
